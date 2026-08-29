@@ -30,16 +30,30 @@ app.add_middleware(
 )
 
 from starlette.requests import Request
+from starlette.responses import Response
 
 @app.middleware("http")
 async def vercel_path_rewrite_middleware(request: Request, call_next):
+    if request.method == "OPTIONS":
+        response = Response(status_code=200)
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+        response.headers["Access-Control-Allow-Credentials"] = "true"
+        return response
+
     matched_path = request.headers.get("x-matched-path")
     if matched_path:
         request.scope["path"] = matched_path
     elif request.scope.get("path", "").startswith("/api/index.py"):
         sub_path = request.scope["path"][len("/api/index.py"):]
         request.scope["path"] = sub_path if sub_path.startswith("/") else ("/" + sub_path)
-    return await call_next(request)
+    
+    response = await call_next(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    return response
 
 for dir_path, mount_path, name in [
     (settings.UPLOAD_DIR, "/static/uploads", "uploads"),

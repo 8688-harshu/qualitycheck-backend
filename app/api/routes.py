@@ -18,6 +18,10 @@ router = APIRouter()
 
 ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
+@router.options("/analyze")
+def options_analyze():
+    return {}
+
 @router.post("/analyze", response_model=AnalysisResultResponse, status_code=status.HTTP_201_CREATED)
 async def analyze_image(
     file: UploadFile = File(...),
