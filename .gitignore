@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.sqlite
+*.db
+.env
+data/uploads/*
+data/heatmaps/*
+!data/samples/
+!data/dataset/

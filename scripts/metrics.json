@@ -1,0 +1,123 @@
+{
+  "accuracy": 1.0,
+  "precision": 1.0,
+  "recall": 1.0,
+  "f1_score": 1.0,
+  "cv_mean_accuracy": 1.0,
+  "cv_std": 0.0,
+  "confusion_matrix": [
+    [
+      20,
+      0,
+      0
+    ],
+    [
+      0,
+      60,
+      0
+    ],
+    [
+      0,
+      0,
+      25
+    ]
+  ],
+  "labels": [
+    "ACCEPTABLE",
+    "DEGRADED",
+    "DEFECTIVE"
+  ],
+  "total_samples": 420,
+  "train_samples": 315,
+  "test_samples": 105,
+  "feature_importances": [
+    {
+      "feature": "dynamic_range",
+      "importance": 0.1324
+    },
+    {
+      "feature": "brenner_index",
+      "importance": 0.1063
+    },
+    {
+      "feature": "blockiness_index",
+      "importance": 0.1013
+    },
+    {
+      "feature": "scratch_count",
+      "importance": 0.0901
+    },
+    {
+      "feature": "tenengrad_index",
+      "importance": 0.0817
+    },
+    {
+      "feature": "std_luminance",
+      "importance": 0.0584
+    },
+    {
+      "feature": "sharpness_score",
+      "importance": 0.0569
+    },
+    {
+      "feature": "defect_area_pct",
+      "importance": 0.0476
+    },
+    {
+      "feature": "noise_std",
+      "importance": 0.0426
+    },
+    {
+      "feature": "entropy",
+      "importance": 0.0395
+    },
+    {
+      "feature": "defect_count",
+      "importance": 0.039
+    },
+    {
+      "feature": "hf_noise_energy",
+      "importance": 0.033
+    },
+    {
+      "feature": "spot_count",
+      "importance": 0.0287
+    },
+    {
+      "feature": "snr_db",
+      "importance": 0.0282
+    },
+    {
+      "feature": "highlight_clipping_pct",
+      "importance": 0.0263
+    },
+    {
+      "feature": "fft_hf_ratio",
+      "importance": 0.0226
+    },
+    {
+      "feature": "noise_score",
+      "importance": 0.0208
+    },
+    {
+      "feature": "mean_luminance",
+      "importance": 0.0161
+    },
+    {
+      "feature": "laplacian_var",
+      "importance": 0.0139
+    },
+    {
+      "feature": "shadow_clipping_pct",
+      "importance": 0.0105
+    },
+    {
+      "feature": "median_luminance",
+      "importance": 0.0023
+    },
+    {
+      "feature": "exposure_score",
+      "importance": 0.0019
+    }
+  ]
+}
