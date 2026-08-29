@@ -36,17 +36,28 @@ class Settings(BaseSettings):
     SECRET_KEY: str = "qualivision-ai-secret-key-change-in-production"
 
     def model_post_init(self, __context):
-        is_vercel = bool(os.environ.get("VERCEL"))
-        if not self.DATA_ROOT:
-            self.DATA_ROOT = "/tmp" if is_vercel else os.path.join(self.BASE_DIR, "data")
-        if not self.DATABASE_URL:
-            self.DATABASE_URL = f"sqlite:///{os.path.join(self.DATA_ROOT, 'qualivision.db')}"
-        if not self.UPLOAD_DIR:
-            self.UPLOAD_DIR = os.path.join(self.DATA_ROOT, "uploads")
-        if not self.HEATMAP_DIR:
-            self.HEATMAP_DIR = os.path.join(self.DATA_ROOT, "heatmaps")
-        if not self.SAMPLES_DIR:
-            self.SAMPLES_DIR = os.path.join(self.DATA_ROOT, "samples") if is_vercel else os.path.join(self.BASE_DIR, "data", "samples")
+        is_serverless = bool(
+            os.environ.get("VERCEL")
+            or os.environ.get("AWS_LAMBDA_FUNCTION_NAME")
+            or os.environ.get("LAMBDA_TASK_ROOT")
+        )
+        if is_serverless:
+            self.DATA_ROOT = "/tmp"
+            self.DATABASE_URL = "sqlite:////tmp/qualivision.db"
+            self.UPLOAD_DIR = "/tmp/uploads"
+            self.HEATMAP_DIR = "/tmp/heatmaps"
+            self.SAMPLES_DIR = "/tmp/samples"
+        else:
+            if not self.DATA_ROOT or self.DATA_ROOT == "./data":
+                self.DATA_ROOT = os.path.join(self.BASE_DIR, "data")
+            if not self.DATABASE_URL or "sqlite:///./data" in self.DATABASE_URL:
+                self.DATABASE_URL = f"sqlite:///{os.path.join(self.DATA_ROOT, 'qualivision.db')}"
+            if not self.UPLOAD_DIR or self.UPLOAD_DIR == "./data/uploads":
+                self.UPLOAD_DIR = os.path.join(self.DATA_ROOT, "uploads")
+            if not self.HEATMAP_DIR or self.HEATMAP_DIR == "./data/heatmaps":
+                self.HEATMAP_DIR = os.path.join(self.DATA_ROOT, "heatmaps")
+            if not self.SAMPLES_DIR or self.SAMPLES_DIR == "./data/samples":
+                self.SAMPLES_DIR = os.path.join(self.BASE_DIR, "data", "samples")
 
 settings = Settings()
 
