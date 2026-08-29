@@ -42,13 +42,11 @@ async def vercel_path_rewrite_middleware(request: Request, call_next):
         response.headers["Access-Control-Allow-Credentials"] = "true"
         return response
 
-    matched_path = request.headers.get("x-matched-path")
-    if matched_path:
-        request.scope["path"] = matched_path
-    elif request.scope.get("path", "").startswith("/api/index.py"):
-        sub_path = request.scope["path"][len("/api/index.py"):]
-        request.scope["path"] = sub_path if sub_path.startswith("/") else ("/" + sub_path)
-    
+    path = request.scope.get("path", "")
+    if path.startswith("/api/index.py"):
+        sub_path = path[len("/api/index.py"):]
+        request.scope["path"] = sub_path if sub_path.startswith("/") else ("/" + sub_path if sub_path else "/")
+
     response = await call_next(request)
     response.headers["Access-Control-Allow-Origin"] = "*"
     response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS, PATCH"
