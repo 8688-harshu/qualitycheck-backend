@@ -1,0 +1,26 @@
+{
+  "functions": {
+    "api/index.py": {
+      "includeFiles": [
+        "app/**",
+        "main.py",
+        "scripts/metrics.json"
+      ],
+      "excludeFiles": [
+        "**/*.pyc",
+        "**/__pycache__/**",
+        "**/*.db",
+        "**/*.sqlite",
+        "tests/**",
+        "data/**"
+      ],
+      "maxDuration": 30
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api/index.py"
+    }
+  ]
+}
